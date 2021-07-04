@@ -4,11 +4,8 @@ import { Text, View, Button } from 'react-native';
 export default function Landing({ navigation }) {
   return (
     <View style={{ flex: 1, justifyContent: 'center' }}>
-      <Button
-        title="register"
-        onPress={() => navigation.navigate('Register')}
-      />
-      <Button title="Login" onPress={() => navigation.navigate('Login')} />
+      <Button title="Sign Up" onPress={() => navigation.navigate('Register')} />
+      <Button title="Sign In" onPress={() => navigation.navigate('Login')} />
     </View>
   );
 }

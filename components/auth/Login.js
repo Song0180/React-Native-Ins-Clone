@@ -31,7 +31,7 @@ export default function Login() {
         onPress={() => {
           onSignUp();
         }}
-        title="Sign Up"
+        title="Log In"
       />
     </View>
   );
