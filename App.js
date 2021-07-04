@@ -8,6 +8,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 import LandingScreen from './components/auth/Landing';
 import RegisterScreen from './components/auth/Register';
+import MainScreen from './components/Main';
 
 if (firebase.apps.length === 0) {
   firebase.initializeApp(firebaseConfig);
@@ -33,7 +34,7 @@ export default function App() {
 
   if (!isLoaded) {
     return (
-      <View style={{ flex: 1, justifyContent: 'center' }}>
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
         <Text>Loading</Text>
       </View>
     );
@@ -53,9 +54,5 @@ export default function App() {
       </NavigationContainer>
     );
   }
-  return (
-    <View style={{ flex: 1, justifyContent: 'center' }}>
-      <Text>You have logged in!</Text>
-    </View>
-  );
+  return <MainScreen />;
 }

@@ -12,6 +12,14 @@ export default function Register() {
       const result = await firebase
         .auth()
         .createUserWithEmailAndPassword(email, password);
+      firebase
+        .firestore()
+        .collection('users')
+        .doc(firebase.auth().currentUser.uid)
+        .set({
+          name,
+          email,
+        });
     } catch (e) {
       console.log(e);
     }
