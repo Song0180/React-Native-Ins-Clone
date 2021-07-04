@@ -9,7 +9,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import LandingScreen from './components/auth/Landing';
 import RegisterScreen from './components/auth/Register';
 
-if (firebase.app.length === 0) {
+if (firebase.apps.length === 0) {
   firebase.initializeApp(firebaseConfig);
 }
 
