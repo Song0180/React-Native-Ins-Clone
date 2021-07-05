@@ -6,7 +6,7 @@ export default function Login() {
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
 
-  const onSignUp = async () => {
+  const onSignIn = async () => {
     try {
       const result = await firebase
         .auth()
@@ -29,7 +29,7 @@ export default function Login() {
       />
       <Button
         onPress={() => {
-          onSignUp();
+          onSignIn();
         }}
         title="Log In"
       />
