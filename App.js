@@ -10,6 +10,7 @@ import LandingScreen from './components/auth/Landing';
 import RegisterScreen from './components/auth/Register';
 import LoginScreen from './components/auth/Login';
 import MainScreen from './components/Main';
+import PostScreen from './components/main/Post/Post';
 
 if (firebase.apps.length === 0) {
   firebase.initializeApp(firebaseConfig);
@@ -56,5 +57,16 @@ export default function App() {
       </NavigationContainer>
     );
   }
-  return <MainScreen />;
+  return (
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName="Main">
+        <Stack.Screen
+          name="Main"
+          component={MainScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen name="Post" component={PostScreen} />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
 }
