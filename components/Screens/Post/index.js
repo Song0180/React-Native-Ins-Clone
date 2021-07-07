@@ -5,7 +5,7 @@ import * as ImagePicker from 'expo-image-picker';
 
 import { styles } from './style';
 
-export default function App() {
+export default function Post({ navigation }) {
   const [hasCameraPermission, setHasCameraPermission] = useState(null);
   const [hasGalleryPermission, setHasGalleryPermission] = useState(null);
   const [camera, setCamera] = useState(null);
@@ -77,6 +77,10 @@ export default function App() {
       />
       <Button title="Take Picture" onPress={() => takePicture()} />
       <Button title="Pick Image from Gallery" onPress={() => pickImage()} />
+      <Button
+        title="Save"
+        onPress={() => navigation.navigate('Save', { image })}
+      />
       {image && <Image source={{ uri: image }} style={styles.imageContainer} />}
     </View>
   );

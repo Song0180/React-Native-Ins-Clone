@@ -5,9 +5,8 @@ import { createMaterialBottomTabNavigator } from '@react-navigation/material-bot
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import { useAuthStore } from '../shared/zustand/auth';
-import FeedScreen from '../components/main/Feed';
-
-import ProfileScreen from '../components/main/Profile';
+import FeedScreen from './Screens/Feed';
+import ProfileScreen from './Screens/Profile';
 import { styles } from './style';
 
 const Tab = createMaterialBottomTabNavigator();
@@ -17,16 +16,11 @@ const EmptyScreen = () => {
 };
 
 export default function Main() {
-  const { currentUser, fetchUser } = useAuthStore();
+  const { fetchUser, fetchUserPosts } = useAuthStore();
 
   React.useEffect(() => {
     fetchUser();
   }, []);
-
-  //  <Button title="Log Out" onPress={onLogOut} />;
-  // const onLogOut = () => {
-  //   firebase.auth().signOut();
-  // };
 
   return (
     <View style={styles.container}>

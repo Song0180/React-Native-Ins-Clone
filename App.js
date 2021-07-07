@@ -10,7 +10,8 @@ import LandingScreen from './components/auth/Landing';
 import RegisterScreen from './components/auth/Register';
 import LoginScreen from './components/auth/Login';
 import MainScreen from './components/Main';
-import PostScreen from './components/main/Post/Post';
+import PostScreen from './components/Screens/Post';
+import SaveScreen from './components/Screens/Save';
 
 if (firebase.apps.length === 0) {
   firebase.initializeApp(firebaseConfig);
@@ -66,6 +67,7 @@ export default function App() {
           options={{ headerShown: false }}
         />
         <Stack.Screen name="Post" component={PostScreen} />
+        <Stack.Screen name="Save" component={SaveScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
