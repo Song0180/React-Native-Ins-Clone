@@ -1,11 +1,13 @@
 import * as React from 'react';
-// import firebase from 'firebase';
-import { View, Text, Button, SafeAreaView } from 'react-native';
+import firebase from 'firebase';
+import { View } from 'react-native';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import { useAuthStore } from '../shared/zustand/auth';
+import { useUserInteractStore } from '../shared/zustand/userInteractions';
 import FeedScreen from './Screens/Feed';
+import SearchScreen from './Screens/Search';
 import ProfileScreen from './Screens/Profile';
 import { styles } from './style';
 
@@ -16,11 +18,25 @@ const EmptyScreen = () => {
 };
 
 export default function Main() {
-  const { fetchUser, fetchUserPosts } = useAuthStore();
+  const { fetchUser } = useAuthStore();
+  const {
+    following,
+    fetchUsersData,
+    fetchUserFollowing,
+    fetchUsersFollowingPosts,
+  } = useUserInteractStore();
 
   React.useEffect(() => {
-    fetchUser();
+    fetchUser(firebase.auth().currentUser.uid);
+    fetchUserFollowing(firebase.auth().currentUser.uid);
   }, []);
+
+  React.useEffect(() => {
+    for (let i = 0; i < following.length; i++) {
+      fetchUsersData(following[i]);
+      fetchUsersFollowingPosts(following[i]);
+    }
+  }, [following]);
 
   return (
     <View style={styles.container}>
@@ -31,6 +47,19 @@ export default function Main() {
           options={{
             tabBarIcon: ({ color, size = 26 }) => (
               <MaterialCommunityIcons name="home" color={color} size={size} />
+            ),
+          }}
+        />
+        <Tab.Screen
+          name="Search"
+          component={SearchScreen}
+          options={{
+            tabBarIcon: ({ color, size = 26 }) => (
+              <MaterialCommunityIcons
+                name="magnify"
+                color={color}
+                size={size}
+              />
             ),
           }}
         />
@@ -56,6 +85,14 @@ export default function Main() {
         <Tab.Screen
           name="Profile"
           component={ProfileScreen}
+          listeners={({ navigation }) => ({
+            tabPress: e => {
+              e.preventDefault();
+              navigation.navigate('Profile', {
+                uid: firebase.auth().currentUser.uid,
+              });
+            },
+          })}
           options={{
             tabBarIcon: ({ color, size = 26 }) => (
               <MaterialCommunityIcons
