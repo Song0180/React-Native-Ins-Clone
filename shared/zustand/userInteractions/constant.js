@@ -1,6 +1,7 @@
 export const initialState = {
-  usersLoaded: 0,
+  usersFollowingLoaded: 0,
   users: [],
   posts: [],
   following: [],
+  currentPostComments: [],
 };

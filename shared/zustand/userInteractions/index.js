@@ -1,6 +1,6 @@
 import create from 'zustand';
 import firebase from 'firebase';
-
+require('firebase/firestore');
 import { initialState } from './constant';
 
 export const useUserInteractStore = create((set, get) => ({
@@ -83,7 +83,7 @@ export const useUserInteractStore = create((set, get) => ({
       .orderBy('creation', 'asc')
       .get();
 
-    const { users, usersLoaded } = get();
+    const { users, usersFollowingLoaded } = get();
     const user = users.find(user => user.uid === targetUid);
     const posts = snapShot.docs.map(doc => {
       const data = doc.data();
@@ -96,11 +96,41 @@ export const useUserInteractStore = create((set, get) => ({
     });
 
     set({
-      usersLoaded: usersLoaded + 1,
+      usersFollowingLoaded: usersFollowingLoaded + 1,
       users: users.map(user =>
         user.uid === targetUid ? { ...user, posts: posts } : user
       ),
       targetUid,
     });
+  },
+  fetchPostComments: async (targetUid, targetPostId) => {
+    const snapShot = await firebase
+      .firestore()
+      .collection('posts')
+      .doc(targetUid)
+      .collection('userPosts')
+      .doc(targetPostId)
+      .collection('comments')
+      .get();
+    const comments = snapShot.docs.map(doc => {
+      const data = doc.data();
+      const id = doc.id;
+      return { id, ...data };
+    });
+
+    set({ currentPostComments: comments });
+  },
+  sendPostComment: async (targetUid, targetPostId, text) => {
+    firebase
+      .firestore()
+      .collection('posts')
+      .doc(targetUid)
+      .collection('userPosts')
+      .doc(targetPostId)
+      .collection('comments')
+      .add({
+        creator: firebase.auth().currentUser.uid,
+        text,
+      });
   },
 }));

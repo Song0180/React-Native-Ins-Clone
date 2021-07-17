@@ -12,6 +12,7 @@ import LoginScreen from './components/auth/Login';
 import MainScreen from './components/Main';
 import PostScreen from './components/Screens/Post';
 import SaveScreen from './components/Screens/Save';
+import CommentScreen from './components/Screens/Comment';
 
 if (firebase.apps.length === 0) {
   firebase.initializeApp(firebaseConfig);
@@ -64,6 +65,7 @@ export default function App() {
         <Stack.Screen name="Main" component={MainScreen} />
         <Stack.Screen name="Post" component={PostScreen} />
         <Stack.Screen name="Save" component={SaveScreen} />
+        <Stack.Screen name="Comment" component={CommentScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

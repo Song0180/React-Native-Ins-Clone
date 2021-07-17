@@ -4,14 +4,14 @@ import { FlatList, View, Text, Image } from 'react-native';
 import { useUserInteractStore } from '../../../shared/zustand/userInteractions';
 import { styles } from './style';
 
-export default function Feed() {
-  const { users, following, usersLoaded } = useUserInteractStore();
+export default function Feed({ navigation }) {
+  const { users, following, usersFollowingLoaded } = useUserInteractStore();
 
   const [feedPosts, setFeedPosts] = React.useState([]);
 
   React.useEffect(() => {
     let feedPosts = [];
-    if (usersLoaded === following.length) {
+    if (usersFollowingLoaded === following.length) {
       for (let i = 0; i < following.length; i++) {
         const user = users.find(user => user.uid === following[i]);
         if (user !== undefined) {
@@ -23,7 +23,7 @@ export default function Feed() {
       });
       setFeedPosts(feedPosts);
     }
-  }, [usersLoaded]);
+  }, [usersFollowingLoaded]);
 
   return (
     <View style={styles.container}>
@@ -36,6 +36,16 @@ export default function Feed() {
             <View style={styles.containerImage}>
               <Text>{item.user.name}</Text>
               <Image style={styles.image} source={{ uri: item.downloadUrl }} />
+              <Text
+                onPress={() => {
+                  navigation.navigate('Comment', {
+                    postId: item.id,
+                    uid: item.user.uid,
+                  });
+                }}
+              >
+                View Comments
+              </Text>
             </View>
           )}
         />
