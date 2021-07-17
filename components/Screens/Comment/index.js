@@ -32,7 +32,6 @@ export default function Comment(props) {
         comment.user = user;
       }
     });
-
     setComments(currentPostComments);
   }, [users, currentPostComments]);
 
